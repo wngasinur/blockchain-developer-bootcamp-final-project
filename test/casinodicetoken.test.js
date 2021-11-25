@@ -115,5 +115,33 @@ contract("CasinoDiceToken", accounts => {
 
   });
 
+
+  
+
+  it("As a player (not owner), I can't update bet fee", async () => {
+    const casinoDiceTokenInstance = await CasinoDiceToken.deployed();
+
+    const expectedFee = web3.utils.toWei('1', 'ether')
+    try {
+      await casinoDiceTokenInstance.updateBetFee(expectedFee, {from: accounts[1]})
+    } catch(e) {
+      assert.isTrue(true,"Player can't edit bet fee");
+    }
+
+  });
+
+  it("As a owner, I can update bet fee", async () => {
+    const casinoDiceTokenInstance = await CasinoDiceToken.deployed();
+
+    const expectedFee = web3.utils.toWei('1', 'ether')
+
+    await casinoDiceTokenInstance.updateBetFee(expectedFee)
+
+    const newFee = await casinoDiceTokenInstance.getBetFee()
+
+    assert.equal(expectedFee,newFee, "Incorrect bet fee");
+
+  });
+
   
 });

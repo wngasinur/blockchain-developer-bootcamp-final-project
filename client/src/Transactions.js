@@ -7,7 +7,6 @@ function Transactions({web3,contract}) {
     useEffect(() => {
         async function init() {
             const resp = await getTransactions(contract)
-            console.log(resp)
             setTransactions(resp)
         }
         if(contract) {

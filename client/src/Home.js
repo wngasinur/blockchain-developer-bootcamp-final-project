@@ -44,15 +44,9 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract}) {
     }
 
     useEffect(() => {
-        
-
         return () => {
-            console.log('clean '+eventSubscribed)
-
             if(eventSubscribed) {
-                console.log(eventSubscribed)
                 eventSubscribed.unsubscribe()
-    
             }
         }
     }, [metamask, contract])

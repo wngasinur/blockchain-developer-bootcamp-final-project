@@ -23,6 +23,7 @@ contract CasinoDiceToken is ERC20, Ownable {
         
     event WithdrawSuccessful(address indexed from, uint256 amount);
     event TopupSuccessful(address indexed from, uint256 amount);
+    event UpdateBetFeeSuccessful(address indexed from, uint256 amount);
     event GameResult(address indexed from, Game game);
 
     uint256 private exchangeRate = 1000;
@@ -33,8 +34,12 @@ contract CasinoDiceToken is ERC20, Ownable {
 
     constructor() ERC20("Casino Dice Token", "CDT") payable{
         _mint(msg.sender, 1000 * (10**uint256(decimals())));
-
         _betFee = 5 * (10**uint256(decimals()-1));
+    }
+
+    function updateBetFee(uint256 _tokenAmount) public onlyOwner {
+        _betFee = _tokenAmount;
+        emit UpdateBetFeeSuccessful(msg.sender,_tokenAmount);
     }
 
     function _preValidateBuy(address _sender, uint256 _weiAmount) internal pure

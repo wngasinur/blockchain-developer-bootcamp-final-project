@@ -16,6 +16,7 @@ import Home from "./Home";
 import Topup from "./Topup";
 import Withdraw from "./Withdraw";
 import Transactions from "./Transactions";
+import UpdateFee from "./UpdateFee";
 
 function App() {
   const [metamask, setMetamask] = useState({
@@ -26,6 +27,7 @@ function App() {
   const [events, setEvents] = useState([]);
   const [web3, setWeb3] = useState(undefined);
   const [contract, setContract] = useState(undefined);
+  const [contractOwner, setContractOwner] = useState(undefined);
 
   useEffect(() => {
     console.log("init");
@@ -36,6 +38,8 @@ function App() {
         contract = await initContract(web3);
         setWeb3(web3);
         setContract(contract);
+        const _contractOwner = await contract.methods.owner().call()
+        setContractOwner(_contractOwner);
       } else {
         alert("Web3 is not enabled");
       }
@@ -91,7 +95,6 @@ function App() {
       if (web3) {
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
-        console.log(account);
 
         setMetamask({
           address: account,
@@ -144,14 +147,14 @@ function App() {
       .withdraw()
       .send({ from: metamask.address });
   };
-
+    
   return (
     <GlobalStateProvider>
       <Routes>
         <Route
           path="/"
           element={
-            <Layout metamask={metamask} balance={balance} contract={contract} />
+            <Layout metamask={metamask} balance={balance} contract={contract} contractOwner={contractOwner} />
           }
         >
           <Route
@@ -172,13 +175,24 @@ function App() {
             element={<Withdraw onWithdraw={onWithdraw} />}
           />
           <Route path="transactions" element={<Transactions contract={contract} web3={web3} />} />
+          <Route path="update-fee" element={<UpdateFee contract={contract} web3={web3} metamask={metamask} />} />
         </Route>
       </Routes>
     </GlobalStateProvider>
   );
 }
 
-const Layout = ({ metamask, balance, contract }) => {
+const Layout = ({ metamask, balance, contract, contractOwner }) => {
+
+  const [showBetFeeUpdate ,setShowBetFeeUpdate] = useState(false)
+  useEffect(() => {
+    if(metamask && metamask.connected && contractOwner) {
+      setShowBetFeeUpdate(contractOwner === metamask.address);
+    } else {
+      setShowBetFeeUpdate(false);
+    }
+  }, [metamask,contractOwner])
+
   return (
     <>
       <div className="container">
@@ -202,6 +216,12 @@ const Layout = ({ metamask, balance, contract }) => {
             <>
               {" "}
               | <Link to="/withdraw">Withdraw</Link>
+            </>
+          ) : null}
+          {showBetFeeUpdate ? (
+            <>
+              {" "}
+              | <Link to="/update-fee">Update Bet Fee</Link>
             </>
           ) : null}
         </nav>
