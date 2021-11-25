@@ -10,14 +10,12 @@ function Withdraw({onWithdraw}) {
     }
 
     return (
-        <div>
-            <form onSubmit={submit}>
-                <div>
-                    <h3>Withdraw all CDT Tokens</h3>
-                </div>
-                <button>Withdraw</button>
+        <>
+            <h4>I want my money back ! </h4>
+            <form onSubmit={submit} className='main-form'>
+                <button class='nes-btn is-error'>Withdraw</button>
             </form>
-        </div>
+        </>
     )
 }
 

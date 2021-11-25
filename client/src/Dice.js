@@ -1,38 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useGlobalState } from './Context';
 
 
-function BetRequestContainer({betToken, betType, betValue, onChangeBetValue,onChangeToken}) {
+function BetRequestContainer({betToken, betType, betValue, onChangeBetValue,onChangeToken, setError}) {
 
     let betTypeItem = <><input type="number" min="1" max="6" value={betValue} onChange={(e) => onChangeBetValue(e.target.value)} /> [1 - 6]</>
     if(betType==="lowHigh") {
-        betTypeItem = <span>
-            <input type="radio" value="0" checked={betValue ==="0"}  onChange={(e) => onChangeBetValue(e.target.value)} required />  Low [1 - 3]
-            <input type="radio" value="1" checked={betValue ==="1"}  onChange={(e) => onChangeBetValue(e.target.value)} required />  High [4 - 6]
-        </span>
+        betTypeItem = <>
+            <label>
+            <input className='nes-radio is-dark' type="radio" value="0" checked={betValue ==0}  onChange={(e) => onChangeBetValue(e.target.value)} required />  
+            <span>Low [1 - 3]</span>
+            </label>
+            <label>
+            <input className='nes-radio is-dark' type="radio" value="1" checked={betValue ==1}  onChange={(e) => onChangeBetValue(e.target.value)} required />  
+            <span>High [4 - 6]</span>
+            </label>
+            
+        </>
     }
 
     return (
         <>
-        <div>
-              <label>Place your bet</label>
-              {betTypeItem}
+        <div className="nes-container is-dark with-title">
+                    <p className="title">Bet Value</p>
+                    <p>
+                    {betTypeItem}
+                    </p>
         </div>
-        <div>
-        <label>Bet Amount: </label>
-            <input type="number" min="1" max="1000" value={betToken} onChange={(e) => onChangeToken(e.target.value)} /> CDT
+        <div className="nes-container is-dark with-title">
+                    <p className="title">Bet Amount</p>
+                    <p>
+                    <input className='nes-input' type="number" min="1" max="1000" value={betToken} onChange={(e) => onChangeToken(e.target.value)} /> CDT
+                    </p>
         </div>
         </>
     )
 }
 
-const Dice = ({web3, onRollDice}) => {
+const Dice = ({web3, onRollDice, setError}) => {
+
+    const {setShowLoading} = useGlobalState();
 
     const [betRequest, setBetRequest] = useState({
         betType:"lowHigh",
-        betValue:1,
+        betValue:'0',
         betToken:'1',
         riskReward:"1:1"
     })
+
     
     const onChangeBetValue = async (value) => {
         setBetRequest((previous) => ({
@@ -55,8 +70,9 @@ const Dice = ({web3, onRollDice}) => {
 
     const submit = async (e) => {
         e.preventDefault()
-
-        console.log(betRequest)
+        setShowLoading(true)
+     
+        
 
         onRollDice(betRequest)
     }
@@ -64,23 +80,35 @@ const Dice = ({web3, onRollDice}) => {
 
     return (
         <>
-             <form onSubmit={submit}>
-             <div>
-                    <label>Place your bet: </label>
+  
+             <h3>YOLOOOOOOOOO !</h3>
+             <form onSubmit={submit} className='main-form'>
+                 
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Bet Type</p>
+                    <p>
+                    <label>
+                    <input className='nes-radio is-dark' type="radio" name="betType" value="lowHigh" checked={betRequest.betType ==="lowHigh"}  onChange={(e) => onChangeBetType(e.target.value)} />
+                    <span>Low/High</span>
+                    </label>
+                    <label>
+                        <input className='nes-radio is-dark' type="radio" name="betType" value="guessNumber"  checked={betRequest.betType ==="guessNumber"}  onChange={(e) => onChangeBetType(e.target.value)} />
+                        <span>Guess Number</span>
+                    </label>
+                    </p>
                 </div>
-                <div>
-                    <label>Type of bet:</label>
-                    <input type="radio" name="betType" value="lowHigh" checked={betRequest.betType ==="lowHigh"}  onChange={(e) => onChangeBetType(e.target.value)} />Low/High
-                    <input type="radio" name="betType" value="guessNumber"  checked={betRequest.betType ==="guessNumber"}  onChange={(e) => onChangeBetType(e.target.value)} />Guess Number
-                </div>
-                <div>
-                    <label>Risk / Reward: </label>
+                
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Risk / Reward</p>
+                    <p>
                     {betRequest.riskReward}
+                    </p>
                 </div>
                 <BetRequestContainer betToken={betRequest.betToken} betType={betRequest.betType} betValue={betRequest.betValue} onChangeBetValue={onChangeBetValue} onChangeToken={onChangeToken} />
 
-                <button>Roll Dice</button>
+                <button className='nes-btn is-primary'>Roll Dice</button>
              </form>
+             
         </>
     )
 }

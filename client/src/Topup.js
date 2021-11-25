@@ -16,22 +16,31 @@ function Topup({onTopup}) {
     }
 
     return (
-        <div>
-            <form onSubmit={submit}>
-                <div>
-                    <h3>Exchange Rate : 1000 CDT / 1 ETH</h3>
+        <>
+            <h4>Ka-ching ! </h4>
+            <form onSubmit={submit} className='main-form'>
+                
+                <div className="nes-container is-dark with-title">
+                    <p className="title">CDT</p>
+                    <p>
+                    <input className='nes-input' value={cdtAmount} type='number' min='100' max='5000' onChange={(e) => setCdtAmount(e.target.value)} />
+                    </p>
                 </div>
-                <div>
-                    <label>CDT</label>
-                    <input value={cdtAmount} type='number' min='100' max='5000' onChange={(e) => setCdtAmount(e.target.value)} />
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Exchange Rate</p>
+                    <p>
+                    Exchange Rate : 1000 CDT / 1 ETH
+                    </p>
                 </div>
-                <div>
-                    <label>ETH</label>
-                    <input value={ethAmount} type='number' readOnly />
+                <div className="nes-container is-dark with-title">
+                    <p className="title">ETH</p>
+                    <p>
+                    <input className='nes-input is-disabled'  value={ethAmount} type='number' readOnly />
+                    </p>
                 </div>
-                <button>Topup</button>
+                <button className='nes-btn is-success'> <i className="nes-icon is-small coin"></i> Topup</button>
             </form>
-        </div>
+        </>
     )
 }
 

@@ -9,8 +9,10 @@ export function useGlobalState() {
 
 export function GlobalStateProvider({children}) {
     const [contractAddress, setContractAddress] = useState('Loading...')
+    const [showLoading, setShowLoading] = useState(false)
+
     return (
-        <GlobalStateContext.Provider value={{contractAddress, setContractAddress}}>
+        <GlobalStateContext.Provider value={{contractAddress, setContractAddress, showLoading, setShowLoading}}>
             {children}
         </GlobalStateContext.Provider>
     )

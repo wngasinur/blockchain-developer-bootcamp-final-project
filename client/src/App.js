@@ -17,6 +17,7 @@ import Topup from "./Topup";
 import Withdraw from "./Withdraw";
 import Transactions from "./Transactions";
 import UpdateFee from "./UpdateFee";
+import Loading from "./Loading";
 
 function App() {
   const [metamask, setMetamask] = useState({
@@ -25,6 +26,7 @@ function App() {
   });
   const [balance, setBalance] = useState(0);
   const [events, setEvents] = useState([]);
+  const [error, setError] = useState();
   const [web3, setWeb3] = useState(undefined);
   const [contract, setContract] = useState(undefined);
   const [contractOwner, setContractOwner] = useState(undefined);
@@ -38,8 +40,12 @@ function App() {
         contract = await initContract(web3);
         setWeb3(web3);
         setContract(contract);
-        const _contractOwner = await contract.methods.owner().call()
-        setContractOwner(_contractOwner);
+        if(contract.options.address) {
+          const _contractOwner = await contract.methods.owner().call()
+          setContractOwner(_contractOwner);  
+        } else {
+          setError('Unable to find the contract, please make you sure you connect to right blockchain network')
+        }
       } else {
         alert("Web3 is not enabled");
       }
@@ -154,7 +160,7 @@ function App() {
         <Route
           path="/"
           element={
-            <Layout metamask={metamask} balance={balance} contract={contract} contractOwner={contractOwner} />
+            <Layout metamask={metamask} balance={balance} contract={contract} contractOwner={contractOwner} error={error} />
           }
         >
           <Route
@@ -166,6 +172,7 @@ function App() {
                 connectMetamask={connectMetamask}
                 onRollDice={onRollDice}
                 contract={contract}
+                setError={setError}
               />
             }
           />
@@ -182,7 +189,7 @@ function App() {
   );
 }
 
-const Layout = ({ metamask, balance, contract, contractOwner }) => {
+const Layout = ({ metamask, balance, contract, contractOwner, error }) => {
 
   const [showBetFeeUpdate ,setShowBetFeeUpdate] = useState(false)
   useEffect(() => {
@@ -195,15 +202,11 @@ const Layout = ({ metamask, balance, contract, contractOwner }) => {
 
   return (
     <>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"></link>
       <div className="container">
         <Header metamask={metamask} balance={balance} contract={contract} />
-        <nav
-          style={{
-            borderBottom: "solid 1px",
-            paddingBottom: "1rem",
-          }}
-        >
-          <Link to="/">Home</Link>
+        <nav>
+          <Link to="/">Dicey Dice</Link>
           {" "}
               | <Link to="/transactions">Transactions</Link>
           {metamask.connected ? (
@@ -225,9 +228,17 @@ const Layout = ({ metamask, balance, contract, contractOwner }) => {
             </>
           ) : null}
         </nav>
+
+        <div className="content nes-container with-title is-centered">
+          <Outlet />
+          
+          {error ? <div><i class="nes-icon is-medium is-half heart"></i> <span class='nes-text is-error'>{error} </span></div> : null}
+        </div>
+        <Loading />
+        
       </div>
 
-      <Outlet />
+      
     </>
   );
 };
