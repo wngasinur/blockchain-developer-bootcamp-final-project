@@ -5,6 +5,8 @@
 #### CDT Token Address / Smart Contract Address (Kovan)
 `0x70e3057e2Fd2ae83B04c622E40937acd0f531088`
 
+[https://kovan.etherscan.io/address/0x70e3057e2Fd2ae83B04c622E40937acd0f531088](https://kovan.etherscan.io/address/0x70e3057e2Fd2ae83B04c622E40937acd0f531088)
+
 #### Owner Test Account (Private Keys)
 Smart Contract Owner - `0c53a7b69c0b6d806067d781ffd5ac1bac16380ffbe68aee6546a6588e1dc460`
 
