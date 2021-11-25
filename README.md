@@ -1,20 +1,109 @@
-# Casino Dice Token (CDT)
+# Casino Dice Game
+#### Website
+[https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/](https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/) - Pointing to `Kovan Net` 
+
+#### CDT Token Address / Smart Contract Address (Kovan)
+`0x70e3057e2Fd2ae83B04c622E40937acd0f531088`
+
+#### Owner Test Account (Private Keys)
+Smart Contract Owner - `0c53a7b69c0b6d806067d781ffd5ac1bac16380ffbe68aee6546a6588e1dc460`
+
+#### Screencast
+
+TODO
+
+#### Project description
+
+Online Casino, the idea is any players can play the dice games and bet their Casino Dice Token (CDT).
+The CDT is ERC20 standard.
+
+There are 2 type of games available : 
+   1. First game, guess low / high of the dice - `[Low/High]` with risk/reward 1:1
+   2. Second game, guess the number of the dice -  `[1-6]` with risk/reward 1:6
+
+Different game will have different risk/reward as mentioned above.
+Since making transaction in blockchain is not free, there will be additional cost for every bet placed by player. The current bet fee is 0.5 CDT.
+
+#### Use Cases
+
+1. As a player, I can topup CDT tokens by exchanging ETH to CDT tokens
+2. As a player, I can withdraw all my CDT tokens back to ETH
+3. As a player, I can play dice games and place bet my CDT tokens
+4. As a player, I can see all transactions
+5. As a owner, I can update bet fee
 
 
-## Project description
+#### Local Setup
+The current smart contract file in git is pointing to `Kovan Test Net`. If you only need to run the frontend, you can skip the Smart Contract build and deploy steps.
+##### Requirements 
+   1. Node `v14/16`
+   2. Truffle `v5` / Solc `0.8.9`
+   3. Ganache with port `7545`
+   4. Chrome with Metamask Plugin
+      1. For first time setup, you need to import CDT token using Casino Dice Smart Contract Address
+   
+##### Steps to run smart contract and frontend locally
+1. Smart Contract : Compile contract
+   `truffle compile`
+2. Smart Contract : Deploy contract to local Ganache
+   `truffle migrate --reset`
+3. Front End : Install node_module dependencies
+   1. `cd client && set SKIP_PREFLIGHT_CHECK=true`
+   2. `yarn install` or `npm install`
+4. Front End : Start frontend
+    `yarn start` or `npm start`
 
-The idea is casino players can play the dice games and bet their CDT Tokens.
 
-1. Place their bet by putting decision either Low (1-3) or High (4-6)
-2. Risk / Reward is 1 to 1 between host and player
-3. Player can choose their bet amount in CDT Tokens
-4. Player clicks "Roll". 
-5. The smart contract will get random number from off chain oracle, to generate random the dice number
-6. If the player is right, he/she will get the reward based on the amount of the bet
-7. If the player is wrong, he/she will loss the amount of the bet
+#### Running local unit tests
+1. Install node_module dependencies
+`yarn install` or `npm install`
+2. Run truffle test 
+`truffle test`
 
 
-#### KOVAN Deployment Logs
+#### Deploy To Kovan Test Net
+
+1. Set following .env files :
+```
+SMART_CONTRACT_PRIVATE_KEY=
+INFURA_API_KEY=
+```
+2. `trufle migrate --network kovan`
+
+
+#### Logs
+##### Solidity Test Logs
+```
+λ truffle test
+Using network 'test'.
+
+
+Compiling your contracts...
+===========================
+√ Fetching solc version list from solc-bin. Attempt #1
+> Compiling .\contracts\CasinoDiceToken.sol
+> Compiling .\contracts\CasinoDiceToken.sol
+> Compiling .\contracts\Migrations.sol
+√ Fetching solc version list from solc-bin. Attempt #1
+> Artifacts written to C:\Users\alucard\AppData\Local\Temp\test--1952-otoZApTRqFTf
+> Compiled successfully using:
+   - solc: 0.8.10+commit.fc410830.Emscripten.clang
+
+
+
+  Contract: CasinoDiceToken
+    √ The initial balance of the contract is 1000 CDT tokens (116ms)
+    √ As a player, I can buy 100 CDT tokens with ETH (500ms)
+    √ As a player, I can place my bet and win/lose my CDT tokens (1066ms)
+    √ AS a player, I can see all transactions (127ms)
+    √ AS a player, I can withdraw all my CDT tokens (641ms)
+    √ As a player (not owner), I can't update bet fee (427ms)
+    √ As a owner, I can update bet fee (398ms)
+
+
+  7 passing (3s)
+  ```
+##### KOVAN Deployment Logs
 ```
 Starting migrations...
 ======================
@@ -76,3 +165,9 @@ Summary
 > Total deployments:   2
 > Final cost:          1.03298762 ETH
 ```
+
+#### TODO
+1. Using Chainlink VRF to generate the randomness. Currently the randomness is generated through following vulnerable code
+   ```
+   uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp)))
+   ```

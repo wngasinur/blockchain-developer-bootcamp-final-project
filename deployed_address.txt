@@ -1,0 +1,8 @@
+Network: Kovan 
+https://kovan.etherscan.io/
+
+CDT Contract Address = '0x70e3057e2Fd2ae83B04c622E40937acd0f531088'
+https://kovan.etherscan.io/address/0x70e3057e2Fd2ae83B04c622E40937acd0f531088
+
+Smart Contract Onwer Address = '0xFE1F38F31e85A5deE5488f96Dd00282C4A98f867'
+Smart Contract Onwer Private Key = '0c53a7b69c0b6d806067d781ffd5ac1bac16380ffbe68aee6546a6588e1dc460'
