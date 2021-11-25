@@ -33,6 +33,7 @@ function App() {
 
   useEffect(() => {
     console.log("init");
+    document.title = "Casino Dice Game - Casino Dice Token (CDT)"
     async function init() {
       let [isEnabled, web3] = await web3Enabled();
       let contract;
