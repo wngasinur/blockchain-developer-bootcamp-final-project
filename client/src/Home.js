@@ -137,7 +137,7 @@ const DiceAnimation = ({rnd}) => {
 }
 
 
-function Home({web3, metamask, connectMetamask, onRollDice, contract, setError}) {
+function Home({web3, metamask, connectMetamask, onRollDice, contract, setError, balance}) {
 
     const {setShowLoading} = useGlobalState();
     const [gameResult, setGameResult] = useState()
@@ -154,14 +154,12 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract, setError})
           )
           .on("data", (event) => {
             setShowLoading(false)
-
             console.log("GameResult")
             console.log(event.returnValues.game)
             setGameResult(event.returnValues.game)
             
             
           });
-          console.log('subscribe event '+subsc)
         setEventSubscribed(subsc)
     }
 
@@ -181,8 +179,16 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract, setError})
 
     return (
         <>
-            {!metamask.connected ? <button onClick={()=> connectMetamask()} className='nes-btn is-primary' >Connect to Metamask</button>: null }
-            {metamask.connected ? <Dice web3={web3} onRollDice={onRollDice} setError={setError} />: null }
+        {!metamask.connected ? 
+        <section className="message -right">
+        <div className="nes-balloon from-right is-dark" style={{maxWidth:'820px'}}>
+          <p>Please note, during your use of this site, that online gambling is an entertainment vehicle, and that it carries with it a certain degree of financial risk. Players should be aware of this risk, and govern themselves accordingly. All users of this site should exercise responsibility when playing in online casinos</p>
+          <p>  <button onClick={()=> connectMetamask()} className='nes-btn is-success' >Connect to Metamask</button></p>
+        </div>
+        <i class="nes-charmander" style={{height:'0px'}}></i>
+      </section> :null
+        }
+            {metamask.connected ? <Dice web3={web3} onRollDice={onRollDice} setError={setError}  balance={balance} contract={contract} />: null }
             {/* */}
 
             

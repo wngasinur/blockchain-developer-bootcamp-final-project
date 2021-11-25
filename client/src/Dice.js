@@ -4,7 +4,7 @@ import { useGlobalState } from './Context';
 
 function BetRequestContainer({betToken, betType, betValue, onChangeBetValue,onChangeToken, setError}) {
 
-    let betTypeItem = <><input type="number" min="1" max="6" value={betValue} onChange={(e) => onChangeBetValue(e.target.value)} /> [1 - 6]</>
+    let betTypeItem = <><input  className='nes-input' type="number" min="1" max="6" value={betValue} onChange={(e) => onChangeBetValue(e.target.value)} /> [1 - 6]</>
     if(betType==="lowHigh") {
         betTypeItem = <>
             <label>
@@ -28,18 +28,21 @@ function BetRequestContainer({betToken, betType, betValue, onChangeBetValue,onCh
                     </p>
         </div>
         <div className="nes-container is-dark with-title">
-                    <p className="title">Bet Amount</p>
-                    <p>
-                    <input className='nes-input' type="number" min="1" max="1000" value={betToken} onChange={(e) => onChangeToken(e.target.value)} /> CDT
+                    <p className="title"><i className="nes-icon is-small coin"></i> Bet Amount</p>
+                    <p className='nes-field is-inline'>
+                    <input className='nes-input' type="number" min="1" max="1000" value={betToken} onChange={(e) => onChangeToken(e.target.value)} /> 
+                    <span className='nes-text is-warning'>CDT</span>
                     </p>
         </div>
         </>
     )
 }
 
-const Dice = ({web3, onRollDice, setError}) => {
+const Dice = ({web3, onRollDice, contract, setError, balance}) => {
 
     const {setShowLoading} = useGlobalState();
+    
+    const [existingFee, setExistingFee] = useState('')
 
     const [betRequest, setBetRequest] = useState({
         betType:"lowHigh",
@@ -48,7 +51,16 @@ const Dice = ({web3, onRollDice, setError}) => {
         riskReward:"1:1"
     })
 
-    
+    useEffect(() => {
+        async function init() {            
+            const _fee = await contract.methods.getBetFee().call()
+            setExistingFee(web3.utils.fromWei(_fee,'ether'))
+        }
+        if(contract) {
+            init()
+        }
+    }, [contract])
+
     const onChangeBetValue = async (value) => {
         setBetRequest((previous) => ({
             ...previous, betValue: value
@@ -70,22 +82,25 @@ const Dice = ({web3, onRollDice, setError}) => {
 
     const submit = async (e) => {
         e.preventDefault()
-        setShowLoading(true)
-     
-        
-
-        onRollDice(betRequest)
+        setError('')
+        if(balance - betRequest.betToken - existingFee < 0 ) {
+            setError('Not enough CDT balance , please topup!')
+        }
+        else {
+            setShowLoading(true)
+            onRollDice(betRequest)
+        }
     }
 
 
     return (
         <>
   
-             <h3>YOLOOOOOOOOO !</h3>
+             <h3>Dicey Dice</h3>
              <form onSubmit={submit} className='main-form'>
                  
                 <div className="nes-container is-dark with-title">
-                    <p className="title">Bet Type</p>
+                    <p className="title">Game Type</p>
                     <p>
                     <label>
                     <input className='nes-radio is-dark' type="radio" name="betType" value="lowHigh" checked={betRequest.betType ==="lowHigh"}  onChange={(e) => onChangeBetType(e.target.value)} />
@@ -99,6 +114,12 @@ const Dice = ({web3, onRollDice, setError}) => {
                 </div>
                 
                 <div className="nes-container is-dark with-title">
+                    <p className="title"> <i className="nes-icon is-small coin"></i> Bet Fee</p>
+                    <p>
+                    <span className='nes-text is-warning'> {existingFee} CDT</span>
+                    </p>
+                </div>
+                <div className="nes-container is-dark with-title">
                     <p className="title">Risk / Reward</p>
                     <p>
                     {betRequest.riskReward}
@@ -106,7 +127,7 @@ const Dice = ({web3, onRollDice, setError}) => {
                 </div>
                 <BetRequestContainer betToken={betRequest.betToken} betType={betRequest.betType} betValue={betRequest.betValue} onChangeBetValue={onChangeBetValue} onChangeToken={onChangeToken} />
 
-                <button className='nes-btn is-primary'>Roll Dice</button>
+                <button className='nes-btn is-primary'><span>YOLOOOOOOOO ! </span></button>
              </form>
              
         </>

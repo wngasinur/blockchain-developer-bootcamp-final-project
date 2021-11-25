@@ -172,14 +172,15 @@ function App() {
                 connectMetamask={connectMetamask}
                 onRollDice={onRollDice}
                 contract={contract}
-                setError={setError}
+                setError={setError} balance={balance}
               />
             }
           />
-          <Route path="topup" element={<Topup onTopup={onTopup} />} />
+
+          <Route path="topup" element={<Topup onTopup={onTopup} setError={setError}  contract={contract} metamask={metamask} />} />
           <Route
             path="withdraw"
-            element={<Withdraw onWithdraw={onWithdraw} />}
+            element={<Withdraw onWithdraw={onWithdraw} balance={balance} contract={contract} metamask={metamask} />}
           />
           <Route path="transactions" element={<Transactions contract={contract} web3={web3} />} />
           <Route path="update-fee" element={<UpdateFee contract={contract} web3={web3} metamask={metamask} />} />
@@ -206,39 +207,38 @@ const Layout = ({ metamask, balance, contract, contractOwner, error }) => {
       <div className="container">
         <Header metamask={metamask} balance={balance} contract={contract} />
         <nav>
-          <Link to="/">Dicey Dice</Link>
+          <Link to="/" className='nes-badge'><span className="is-primary">Dicey Dice</span></Link>
           {" "}
-              | <Link to="/transactions">Transactions</Link>
+          | <Link to="/transactions" className='nes-badge'><span className="is-primary">YOLOers</span></Link>
           {metamask.connected ? (
             <>
               {" "}
-              | <Link to="/topup">Topup</Link>
+              | <Link to="/topup" className='nes-badge'><span className="is-success">Topup</span></Link>
             </>
           ) : null}
           {metamask.connected ? (
             <>
               {" "}
-              | <Link to="/withdraw">Withdraw</Link>
+              | <Link to="/withdraw" className='nes-badge'><span className="is-error">Withdraw</span></Link>
             </>
           ) : null}
           {showBetFeeUpdate ? (
             <>
               {" "}
-              | <Link to="/update-fee">Update Bet Fee</Link>
+              | <Link to="/update-fee" className='nes-badge'><span className="is-warning">Bet Fee</span></Link>
             </>
           ) : null}
         </nav>
 
         <div className="content nes-container with-title is-centered">
           <Outlet />
-          
           {error ? <div><i class="nes-icon is-medium is-half heart"></i> <span class='nes-text is-error'>{error} </span></div> : null}
         </div>
         <Loading />
         
       </div>
 
-      
+      <footer>© 2021 | <i class="nes-icon gmail is-small"></i> w n g a s i n u r @ g m a i l . c o m</footer>
     </>
   );
 };

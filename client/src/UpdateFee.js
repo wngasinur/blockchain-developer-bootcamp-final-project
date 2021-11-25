@@ -1,11 +1,34 @@
 import React, {useEffect, useState} from 'react'
-import PropTypes from 'prop-types'
-
+import { useGlobalState } from './Context'
 function UpdateFee({metamask,web3,contract}) {
     const [existingFee, setExistingFee] = useState('')
     const [newFee, setNewFee] = useState('')
     const [newFeeToken, setNewFeeToken] = useState('')
-    
+    const [eventSubscribed, setEventSubscribed] = useState()
+    const {setShowLoading} = useGlobalState();
+
+    if(metamask && metamask.connected && contract && !eventSubscribed) {
+            
+        const subsc = contract.events.UpdateBetFeeSuccessful(
+            {
+              filter: {}
+            },
+            (error, event) => {}
+          )
+          .on("data", (event) => {
+            setShowLoading(false)
+          });
+        setEventSubscribed(subsc)
+    }
+
+    useEffect(() => {
+        return () => {
+            if(eventSubscribed) {
+                eventSubscribed.unsubscribe()
+            }
+        }
+    }, [metamask, contract])
+
     
     useEffect(() => {
         if(newFee) {
@@ -27,8 +50,8 @@ function UpdateFee({metamask,web3,contract}) {
     const submit =  async (e) => {
         e.preventDefault()
         if(newFeeToken!==existingFee) {
+            setShowLoading(true)
             await contract.methods.updateBetFee(newFeeToken).send({ from: metamask.address })
-            alert('Successfully update')
         } else {
             alert('No update')
         }
@@ -36,19 +59,24 @@ function UpdateFee({metamask,web3,contract}) {
     }
 
     return (
-        <div>
+        <>
+            <h4>Update Bet Fee </h4>
             <form onSubmit={submit}>
-                <div>
-                    <label>Existing Bet Fee (CDT) </label>
-                    <input value={existingFee} type='number' readOnly />
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Existing Fee (CDT)</p>
+                    <p>
+                    <input  className='nes-input is-disabled'  value={existingFee} type='number' readOnly disabled />
+                    </p>
                 </div>
-                <div>
-                    <label>New Bet Fee (CDT)</label>
-                    <input value={newFee} type='number' min='0.1'  step='0.1' onChange={(e) => setNewFee(e.target.value)} />
+                <div className="nes-container is-dark with-title">
+                    <p className="title">New Fee (CDT)</p>
+                    <p>
+                    <input  className='nes-input' value={newFee} type='number' min='0.1'  step='0.1' onChange={(e) => setNewFee(e.target.value)} />
+                    </p>
                 </div>
-                <button>Update</button>
+                <button  className='nes-btn is-success'>Update</button>
             </form>
-        </div>
+        </>
     )
 }
 
