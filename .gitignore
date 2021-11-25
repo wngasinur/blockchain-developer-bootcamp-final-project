@@ -1,0 +1,5 @@
+node_modules
+.env
+yarn.lock
+learning-note.readme
+package-lock.json
