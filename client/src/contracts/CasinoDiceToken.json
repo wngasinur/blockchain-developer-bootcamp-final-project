@@ -36233,10 +36233,205 @@
   },
   "networks": {
     "42": {
-      "events": {},
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0x9ca88a5edf4353be1cedd3c29409d7fdc786a9a393284bdb6d8cdf687a275932": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "gameId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address",
+                  "name": "player",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "date",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "result",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "win",
+                  "type": "bool"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "string",
+                      "name": "betType",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "betValue",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "betToken",
+                      "type": "uint256"
+                    }
+                  ],
+                  "internalType": "struct CasinoDiceToken.BetRequest",
+                  "name": "betRequest",
+                  "type": "tuple"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct CasinoDiceToken.Game",
+              "name": "game",
+              "type": "tuple"
+            }
+          ],
+          "name": "GameResult",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0xbc3c393a91c73a771ce19c88a14e7504a6df38d1182b3faf12105a7b0e05cf40": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "TopupSuccessful",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        },
+        "0x3ccc1b0be4f08b8c32f0a1027f27578b75f0f32688f548012e495be25c101202": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "UpdateBetFeeSuccessful",
+          "type": "event"
+        },
+        "0x84e742a3ea03623687a5febaa797636d728230721d4b3d1405d19fbbc16298d9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "WithdrawSuccessful",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0x8fa73F83bD964074e5225c738d58ECFBB4B24848",
-      "transactionHash": "0x0b7a2269271a1b680ba4d98c2ae4d1d7736d42c41f0d3459c6b5432cbe788656"
+      "address": "0x70e3057e2Fd2ae83B04c622E40937acd0f531088",
+      "transactionHash": "0xa6f4d9b216b1deef73650f765d05431da15c02aea638ab863ea5ac3b6fbbd71b"
     },
     "5777": {
       "events": {
@@ -36477,7 +36672,7 @@
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-25T02:19:46.924Z",
+  "updatedAt": "2021-11-25T03:34:38.942Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
