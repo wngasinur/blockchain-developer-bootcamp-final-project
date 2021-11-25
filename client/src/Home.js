@@ -53,13 +53,13 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract}) {
 
     
     return (
-        <div>
+        <>
             
             {!metamask.connected ? <button onClick={()=> connectMetamask()} >Connect to Metamask</button>: null }
             {metamask.connected ? <Dice web3={web3} onRollDice={onRollDice} />: null }
 
             {gameResult ? <GameResult gameId={gameResult.gameId} result={gameResult.result}  win={gameResult.win} /> :null}
-        </div>
+        </>
     )
 }
 
