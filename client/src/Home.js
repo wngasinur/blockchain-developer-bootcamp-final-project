@@ -61,6 +61,7 @@ const DiceAnimation = ({rnd}) => {
     useEffect(() => {
         if(rnd) {
             let x,y;
+            rnd = Number(rnd)
             switch (rnd) {
                 case 1:
                   x = 720;
@@ -189,12 +190,7 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract, setError, 
       </section> :null
         }
             {metamask.connected ? <Dice web3={web3} onRollDice={onRollDice} setError={setError}  balance={balance} contract={contract} />: null }
-            {/* */}
 
-            
-      {/* */}
-            
-            
             {gameResult ? <GameResult gameId={gameResult.gameId} result={gameResult.result}  win={gameResult.win} closeGameResult={closeGameResult} /> :null}
         </>
     )
