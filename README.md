@@ -1,14 +1,16 @@
 # Casino Dice Game
 #### Website
-[https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/](https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/) - Pointing to `Kovan Net` 
+[https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/](https://blockchain-developer-bootcamp-final-project-zeta.vercel.app/) - Pointing to `TESTNET Kovan` 
 
-#### CDT Token Address / Smart Contract Address (Kovan)
+#### CDT Token Address / Smart Contract Address (TESTNET Kovan)
 `0x70e3057e2Fd2ae83B04c622E40937acd0f531088`
 
 [https://kovan.etherscan.io/address/0x70e3057e2Fd2ae83B04c622E40937acd0f531088](https://kovan.etherscan.io/address/0x70e3057e2Fd2ae83B04c622E40937acd0f531088)
 
 #### Owner Test Account (Private Keys)
 Smart Contract Owner - `0c53a7b69c0b6d806067d781ffd5ac1bac16380ffbe68aee6546a6588e1dc460`
+
+*you need this to test some use case. (update bet fee)
 
 #### Screencast
 
@@ -35,30 +37,41 @@ Since making transaction in blockchain is not free, there will be additional cos
 5. As a owner, I can update bet fee
 
 
+#### Tech Stacks
+
+1. Frontend JS : Plain Vanilla ReactJS 16.11.x
+2. Frontend Styling : [NES.css](https://nostalgic-css.github.io/NES.css/)
+3. Smart Contract : Truffle + Open Zeppelin + Solidity
+4. Infrastructure Deployment : Infura (Smart Contract) + Vercel (Frontend)
+
 #### Local Setup
 The current smart contract file in git is pointing to `Kovan Test Net`. If you only need to run the frontend, you can skip the Smart Contract build and deploy steps.
 ##### Requirements 
    1. Node `v14/16`
    2. Truffle `v5` / Solc `0.8.9`
-   3. Ganache with port `7545`
+   3. Ganache
    4. Chrome with Metamask Plugin
       1. For first time setup, you need to import CDT token using Casino Dice Smart Contract Address
    
-##### Steps to run smart contract and frontend locally
-1. Smart Contract : Compile contract
+##### Build and run smart contract locally
+1. Run Ganache with port `7545`
+2. Install contract dependencies (at `root` folder).
+   `yarn install` or `npm install`
+3. Compile contract
    `truffle compile`
-2. Smart Contract : Deploy contract to local Ganache
+4. Deploy contract to local Ganache
    `truffle migrate --reset`
-3. Front End : Install node_module dependencies
+##### Build and run frontend locally
+1. Install frontend dependencies (at `client` folder)
    1. `cd client && set SKIP_PREFLIGHT_CHECK=true`
    2. `yarn install` or `npm install`
-4. Front End : Start frontend
+2. Start frontend
     `yarn start` or `npm start`
 
 
-#### Running local unit tests
-1. Install node_module dependencies
-`yarn install` or `npm install`
+##### Run local unit tests
+1. Install contract dependencies (at `root` folder).
+   `yarn install` or `npm install`
 2. Run truffle test 
 `truffle test`
 
@@ -168,8 +181,9 @@ Summary
 > Final cost:          1.03298762 ETH
 ```
 
-#### TODO
-1. Using Chainlink VRF to generate the randomness. Currently the randomness is generated through following vulnerable code
+#### KNOWN ISSUES / LIMITATIONS
+[ ] The smart contract might get bankrupt and unable to withdraw all the moneys. The initial fund for this smart contract is 1000 CDT / 1 ETH, funded by smart contract owner.
+[ ] Using Chainlink VRF to generate the randomness. Currently the randomness is generated through following vulnerable code
    ```
    uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp)))
    ```
