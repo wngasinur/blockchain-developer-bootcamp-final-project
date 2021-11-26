@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useGlobalState } from './Context';
 
-function Withdraw({onWithdraw, balance, metamask, contract}) {
+function Withdraw({onWithdraw, balance, metamask, contract, setError}) {
 
     
     const {setShowLoading} = useGlobalState();
@@ -32,11 +32,22 @@ function Withdraw({onWithdraw, balance, metamask, contract}) {
         }
     }, [metamask, contract])
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
         setShowLoading(true)
-        console.log('withdraw')
-        onWithdraw()
+        setError('')
+        try {
+            await onWithdraw()
+        } catch(e) {
+            setShowLoading(false)
+            if('message' in e) {
+                setError(e.message)
+            } else {
+                setError(e.toString())
+            }
+            
+        }
+        
     }
 
     return (

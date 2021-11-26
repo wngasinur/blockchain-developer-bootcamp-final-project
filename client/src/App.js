@@ -73,6 +73,7 @@ function App() {
     async function updateBalance(account) {
       const balance = await getBalance(contract, account);
       setBalance(balance);
+      setError('')
     }
 
     if (metamask.connected) {
@@ -178,13 +179,13 @@ function App() {
             }
           />
 
-          <Route path="topup" element={<Topup onTopup={onTopup} setError={setError}  contract={contract} metamask={metamask} />} />
+          <Route path="topup" element={<Topup onTopup={onTopup} setError={setError} contract={contract} metamask={metamask} />} />
           <Route
             path="withdraw"
-            element={<Withdraw onWithdraw={onWithdraw} balance={balance} contract={contract} metamask={metamask} />}
+            element={<Withdraw onWithdraw={onWithdraw} setError={setError} balance={balance} contract={contract} metamask={metamask} />}
           />
           <Route path="transactions" element={<Transactions contract={contract} web3={web3} />} />
-          <Route path="update-fee" element={<UpdateFee contract={contract} web3={web3} metamask={metamask} />} />
+          <Route path="update-fee" element={<UpdateFee  setError={setError} contract={contract} web3={web3} metamask={metamask} />} />
         </Route>
       </Routes>
     </GlobalStateProvider>
@@ -233,13 +234,13 @@ const Layout = ({ metamask, balance, contract, contractOwner, error }) => {
 
         <div className="content nes-container with-title is-centered">
           <Outlet />
-          {error ? <div><i class="nes-icon is-medium is-half heart"></i> <span class='nes-text is-error'>{error} </span></div> : null}
+          {error ? <div><i className="nes-icon is-medium is-half heart"></i> <span className='nes-text is-error'>{error} </span></div> : null}
         </div>
         <Loading />
         
       </div>
 
-      <footer>© 2021 | <i class="nes-icon gmail is-small"></i> w n g a s i n u r @ g m a i l . c o m</footer>
+      <footer>© 2021 | <i className="nes-icon gmail is-small"></i> w n g a s i n u r @ g m a i l . c o m</footer>
     </>
   );
 };

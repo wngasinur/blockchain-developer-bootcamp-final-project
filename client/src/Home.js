@@ -27,21 +27,21 @@ function GameResult({gameId, result, win, closeGameResult}) {
         <>
           {showDice ? <DiceAnimation rnd={result} />  : null}
           <section>
-            <dialog class="nes-dialog is-dark is-rounded" ref={ddd}>
+            <dialog className="nes-dialog is-dark is-rounded" ref={ddd}>
               <form method="dialog">
                 <div>
                     <label>Game ID : {gameId}</label>
                 </div>
-                <div class="nes-container is-dark with-title">
-                    <p class="title">Dice Number</p>
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Dice Number</p>
                     <p>{result}</p>
                 </div>
-                <div class="nes-container is-dark with-title">
-                    <p class="title">Result</p>
-                    <p>{win ? <span className='nes-text is-success'>Win <i class="nes-icon is-medium heart"></i></span> : <span className='nes-text is-error'>Lose <i class="nes-icon is-medium is-half heart"></i></span>}</p>
+                <div className="nes-container is-dark with-title">
+                    <p className="title">Result</p>
+                    <p>{win ? <span className='nes-text is-success'>Win <i className="nes-icon is-medium heart"></i></span> : <span className='nes-text is-error'>Lose <i className="nes-icon is-medium is-half heart"></i></span>}</p>
                 </div>
-                <menu class="dialog-menu">
-                    <button class="nes-btn" onClick={close}>Close 
+                <menu className="dialog-menu">
+                    <button className="nes-btn" onClick={close}>Close 
                     </button>
                 </menu>
               </form>
@@ -80,55 +80,55 @@ const DiceAnimation = ({rnd}) => {
     }, [rnd])
 
     return (
-        <div class="panel">
-        <div class="dice"  ref={ddd}>
-        <div class="side one">
-          <span class="dot"></span>
+        <div className="panel">
+        <div className="dice"  ref={ddd}>
+        <div className="side one">
+          <span className="dot"></span>
         </div>
-        <div class="side two">
-          <span class="dot"></span>
-          <span class="dot"></span>
+        <div className="side two">
+          <span className="dot"></span>
+          <span className="dot"></span>
         </div>
-        <div class="side three">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
+        <div className="side three">
+          <span className="dot"></span>
+          <span className="dot"></span>
+          <span className="dot"></span>
         </div>
-        <div class="side four">
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
+        <div className="side four">
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
           </div>
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-        </div>
-        <div class="side five">
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-          <div class="kolona">
-            <span class="dot"></span>
-          </div>
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
           </div>
         </div>
-        <div class="side six">
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
+        <div className="side five">
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
           </div>
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
+          <div className="kolona">
+            <span className="dot"></span>
           </div>
-          <div class="kolona">
-            <span class="dot"></span>
-            <span class="dot"></span>
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+        </div>
+        <div className="side six">
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+          <div className="kolona">
+            <span className="dot"></span>
+            <span className="dot"></span>
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@ function Home({web3, metamask, connectMetamask, onRollDice, contract, setError, 
           <p>Please note, during your use of this site, that online gambling is an entertainment vehicle, and that it carries with it a certain degree of financial risk. Players should be aware of this risk, and govern themselves accordingly. All users of this site should exercise responsibility when playing in online casinos</p>
           <p>  <button onClick={()=> connectMetamask()} className='nes-btn is-success' >Connect to Metamask</button></p>
         </div>
-        <i class="nes-charmander" style={{height:'0px'}}></i>
+        <i className="nes-charmander" style={{height:'0px'}}></i>
       </section> :null
         }
             {metamask.connected ? <Dice web3={web3} onRollDice={onRollDice} setError={setError}  balance={balance} contract={contract} />: null }

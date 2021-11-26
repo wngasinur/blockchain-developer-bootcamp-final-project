@@ -7,7 +7,7 @@ const Header = ({metamask, balance, contract}) => {
 
     return (
         <header>
-            <div>
+            <div className='dice-logo'>
                 <h2>Casino Dice Game</h2>
                 
                 <span>Contract Address  : {contract?._address}</span>

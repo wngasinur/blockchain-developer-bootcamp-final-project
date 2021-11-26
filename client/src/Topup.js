@@ -36,11 +36,20 @@ function Topup({onTopup,setError, contract, metamask}) {
     useEffect(() => {
         setEthAmount(cdtAmount / 1000)
     }, [cdtAmount])
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
         setError('')
-        setShowLoading(true)
-        onTopup(ethAmount)
+        try {
+            setShowLoading(true)
+            await onTopup(ethAmount)    
+        } catch(e) {
+            setShowLoading(false)
+            if('message' in e) {
+                setError(e.message)
+            } else {
+                setError(e.toString())
+            }
+        }
     }
 
     return (

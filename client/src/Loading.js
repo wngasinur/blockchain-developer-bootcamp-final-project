@@ -18,7 +18,7 @@ const Loading = () => {
     return (
         <>
         {showLoading ? <section>
-            <dialog class="nes-dialog is-dark is-rounded" id="dialog-dark-rounded"  ref={ddd}>
+            <dialog className="nes-dialog is-dark is-rounded" id="dialog-dark-rounded"  ref={ddd}>
               <form method="dialog">
                 <p>Loading...</p>
                 

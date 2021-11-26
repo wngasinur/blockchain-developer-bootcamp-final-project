@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useGlobalState } from './Context'
-function UpdateFee({metamask,web3,contract}) {
+function UpdateFee({metamask,web3,contract, setError}) {
     const [existingFee, setExistingFee] = useState('')
     const [newFee, setNewFee] = useState('')
     const [newFeeToken, setNewFeeToken] = useState('')
@@ -49,9 +49,20 @@ function UpdateFee({metamask,web3,contract}) {
     }, [contract])
     const submit =  async (e) => {
         e.preventDefault()
+        setError('')
         if(newFeeToken!==existingFee) {
-            setShowLoading(true)
-            await contract.methods.updateBetFee(newFeeToken).send({ from: metamask.address })
+            try {
+                setShowLoading(true)
+                await contract.methods.updateBetFee(newFeeToken).send({ from: metamask.address })
+            } catch(e) {
+                setShowLoading(false)
+                if('message' in e) {
+                    setError(e.message)
+                } else {
+                    setError(e.toString())
+                }
+            }
+            
         } else {
             alert('No update')
         }

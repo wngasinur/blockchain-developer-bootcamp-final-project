@@ -74,7 +74,6 @@ const Dice = ({web3, onRollDice, contract, setError, balance}) => {
         }));
     }
     const onChangeToken = (value) => {
-        
         setBetRequest((previous) => ({
             ...previous, betToken:value
         }));
@@ -87,8 +86,18 @@ const Dice = ({web3, onRollDice, contract, setError, balance}) => {
             setError('Not enough CDT balance , please topup!')
         }
         else {
-            setShowLoading(true)
-            onRollDice(betRequest)
+            try {            
+                setShowLoading(true)
+                await onRollDice(betRequest)
+            } catch(e) {
+                
+                setShowLoading(false)
+                if('message' in e) {
+                    setError(e.message)
+                } else {
+                    setError(e.toString())
+                }
+            }
         }
     }
 
