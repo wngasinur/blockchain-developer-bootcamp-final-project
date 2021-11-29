@@ -13,8 +13,8 @@ Smart Contract Owner - `0c53a7b69c0b6d806067d781ffd5ac1bac16380ffbe68aee6546a658
 *you need this to test some use case. (update bet fee)
 
 #### Screencast
+[https://youtu.be/DxvKlg8IQbo](https://youtu.be/DxvKlg8IQbo)
 
-TODO
 
 #### Project description
 
